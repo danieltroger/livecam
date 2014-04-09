@@ -1,0 +1,2 @@
+[09-Apr-2014 21:00:49 Europe/Berlin] PHP Warning:  unlink(cam): No such file or directory in /private/var/www/livecam/ms.php on line 2
+[09-Apr-2014 21:02:24 Europe/Berlin] PHP Warning:  unlink(cam.png): No such file or directory in /private/var/www/livecam/ms.php on line 2

